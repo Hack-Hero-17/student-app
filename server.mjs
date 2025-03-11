@@ -14,10 +14,9 @@ app.use(express.json());
 const dbConfig = {
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  connectionString: process.env.DB_CONNECTION_STRING, // Example: localhost/XEPDB1
+  connectionString: process.env.DB_CONNECTION_STRING,
 };
 
-// ✅ Fetch all tables
 app.get("/api/tables", async (req, res) => {
   let connection;
   try {
@@ -25,7 +24,7 @@ app.get("/api/tables", async (req, res) => {
     const result = await connection.execute(
       `SELECT table_name FROM user_tables`
     );
-    res.json(result.rows.map((row) => row[0])); // Only send table names
+    res.json(result.rows.map((row) => row[0]));
   } catch (error) {
     res.status(500).json({ error: error.message });
   } finally {
@@ -33,7 +32,6 @@ app.get("/api/tables", async (req, res) => {
   }
 });
 
-// ✅ Fetch data from a specific table
 app.get("/api/table/:tableName", async (req, res) => {
   const { tableName } = req.params;
   let connection;
@@ -41,14 +39,12 @@ app.get("/api/table/:tableName", async (req, res) => {
   try {
     connection = await oracledb.getConnection(dbConfig);
 
-    // Get column names
     const columnResult = await connection.execute(
       `SELECT column_name FROM user_tab_columns WHERE table_name = :tableName`,
       [tableName.toUpperCase()]
     );
     const columns = columnResult.rows.map((row) => row[0]);
 
-    // Get table data
     const dataResult = await connection.execute(`SELECT * FROM ${tableName}`);
     const rows = dataResult.rows.map((row) => {
       let rowObject = {};
@@ -89,7 +85,6 @@ app.post("/api/insert-stud", async (req, res) => {
   }
 });
 
-// ✅ Insert into `admis_type` table
 app.post("/api/insert-admis-type", async (req, res) => {
   const { typeid, typename } = req.body;
   let connection;
@@ -130,7 +125,6 @@ app.post("/api/insert-admis-type", async (req, res) => {
 //   }
 // });
 
-// // ✅ Delete from `stud` table
 // app.delete("/api/stud/:id", async (req, res) => {
 //   let connection;
 //   try {
@@ -147,7 +141,6 @@ app.post("/api/insert-admis-type", async (req, res) => {
 //   }
 // });
 
-// ✅ Update `stud` table
 app.put("/api/update-stud", async (req, res) => {
   const { stdid, stdname } = req.body;
   let connection;
@@ -173,7 +166,6 @@ app.put("/api/update-stud", async (req, res) => {
   }
 });
 
-// ✅ Update `admis_type` table
 app.put("/api/update-admis-type", async (req, res) => {
   const { typeid, typename } = req.body;
   let connection;
@@ -192,7 +184,6 @@ app.put("/api/update-admis-type", async (req, res) => {
   }
 });
 
-// ✅ Delete from `stud` table
 app.delete("/api/delete-stud/:stdid", async (req, res) => {
   const { stdid } = req.params;
   let connection;
@@ -209,7 +200,6 @@ app.delete("/api/delete-stud/:stdid", async (req, res) => {
   }
 });
 
-// ✅ Delete from `admis_type` table
 app.delete("/api/delete-admis-type/:typeid", async (req, res) => {
   const { typeid } = req.params;
   let connection;
@@ -289,7 +279,6 @@ app.post("/api/run-cursor", async (req, res) => {
   }
 });
 
-// ✅ Start the server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
