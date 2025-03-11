@@ -5,7 +5,7 @@ import ViewTables from "./components/ViewTables";
 import UpdateRecord from "./components/UpdateRecord";
 import ViewTable from "./components/ViewTable";
 import DeleteRecord from "./components/DeleteRecord";
-import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap
+import "bootstrap/dist/css/bootstrap.min.css"; 
 import InsertTable from "./components/InsertTable";
 import InsertStud from "./components/InsertStud";
 import InsertAdmisType from "./components/InsertAdmisType";

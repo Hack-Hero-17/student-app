@@ -4,16 +4,16 @@ import axios from "axios";
 
 export default function ViewTable() {
   const { tableName } = useParams();
-  const [columns, setColumns] = useState([]); // Store column names
-  const [rows, setRows] = useState([]); // Store row data
+  const [columns, setColumns] = useState([]); 
+  const [rows, setRows] = useState([]); 
   const [error, setError] = useState("");
 
   useEffect(() => {
     axios
       .get(`/api/table/${tableName}`)
       .then((response) => {
-        setColumns(response.data.columns); // Set column names
-        setRows(response.data.rows); // Set table rows
+        setColumns(response.data.columns);
+        setRows(response.data.rows);
       })
       .catch((error) => {
         console.error("Error fetching table data:", error);
